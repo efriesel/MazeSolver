@@ -107,6 +107,7 @@ public class Maze {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     /**
@@ -146,6 +147,7 @@ public class Maze {
      * @return boolean true/false
      */
     public boolean isValidCell(int row, int col) {
-        return !mazeGrid[row][col].isExplored() && !mazeGrid[row][col].isWall();
+        return !(row < 0) && !(row >= mazeGrid.length) && !(col < 0) && !(col > mazeGrid[0].length) &&
+                !mazeGrid[row][col].isExplored() && !mazeGrid[row][col].isWall();
     }
 }

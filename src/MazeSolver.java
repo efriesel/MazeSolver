@@ -5,6 +5,8 @@
  */
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class MazeSolver {
@@ -45,16 +47,56 @@ public class MazeSolver {
     }
 
     /**
-     * Performs a Depth-First Search to solve the Maze
+     * Performs a Depth-First Search to solve the Maze (Stack)
      * @return An ArrayList of MazeCells in order from the start to end cell
      */
     public ArrayList<MazeCell> solveMazeDFS() {
-        // TODO: Use DFS to solve the maze
         Stack <MazeCell> cellsToVisit = new Stack<>();
         MazeCell current = maze.getStartCell();
+        current.setExplored(true);
         cellsToVisit.add(maze.getStartCell());
         while (current != maze.getEndCell()){
             current = cellsToVisit.pop();
+            if (current == maze.getEndCell()) {
+                return getSolution();
+            }
+            if (maze.isValidCell(current.getRow() - 1, current.getCol())) {
+                cellsToVisit.add(maze.getCell(current.getRow() - 1, current.getCol()));
+                maze.getCell(current.getRow() - 1, current.getCol()).setExplored(true);
+                maze.getCell(current.getRow() - 1, current.getCol()).setParent(current);
+            }
+            if (maze.isValidCell(current.getRow(), current.getCol() + 1)) {
+                cellsToVisit.add(maze.getCell(current.getRow(), current.getCol() + 1));
+                maze.getCell(current.getRow(), current.getCol() + 1).setExplored(true);
+                maze.getCell(current.getRow(), current.getCol() + 1).setParent(current);
+            }
+            if (maze.isValidCell(current.getRow() + 1, current.getCol())) {
+                cellsToVisit.add(maze.getCell(current.getRow() + 1, current.getCol()));
+                maze.getCell(current.getRow() + 1, current.getCol()).setExplored(true);
+                maze.getCell(current.getRow() + 1, current.getCol()).setParent(current);
+            }
+            if (maze.isValidCell(current.getRow(), current.getCol() - 1)) {
+                cellsToVisit.add(maze.getCell(current.getRow(), current.getCol() - 1));
+                maze.getCell(current.getRow(), current.getCol() - 1).setExplored(true);
+                maze.getCell(current.getRow(), current.getCol() - 1).setParent(current);
+            }
+        }
+        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        return null;
+    }
+
+    /**
+     * Performs a Breadth-First Search to solve the Maze
+     * @return An ArrayList of MazeCells in order from the start to end cell
+     */
+    public ArrayList<MazeCell> solveMazeBFS() {
+        // TODO: Use BFS to solve the maze
+        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        Queue<MazeCell> cellsToVisit = new LinkedList<>();
+        MazeCell current = maze.getStartCell();
+        cellsToVisit.add(maze.getStartCell());
+        while (current != maze.getEndCell()){
+            current = cellsToVisit.poll();
             if (current == maze.getEndCell()) {
                 return getSolution();
             }
@@ -74,17 +116,8 @@ public class MazeSolver {
                 cellsToVisit.add(maze.getCell(current.getRow(), current.getCol() - 1));
                 maze.getCell(current.getRow(), current.getCol() - 1).setParent(current);
             }
+            current.setExplored(true);
         }
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
-        return null;
-    }
-
-    /**
-     * Performs a Breadth-First Search to solve the Maze
-     * @return An ArrayList of MazeCells in order from the start to end cell
-     */
-    public ArrayList<MazeCell> solveMazeBFS() {
-        // TODO: Use BFS to solve the maze
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
         return null;
     }
