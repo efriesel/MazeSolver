@@ -146,6 +146,7 @@ public class Maze {
      * @param col the int col val
      * @return boolean true/false
      */
+    // return true iff the cell is not out of bounds, is not explored, and is not a wall
     public boolean isValidCell(int row, int col) {
         return !(row < 0) && !(row >= mazeGrid.length) && !(col < 0) && !(col > mazeGrid[0].length) &&
                 !mazeGrid[row][col].isExplored() && !mazeGrid[row][col].isWall();

@@ -51,37 +51,46 @@ public class MazeSolver {
      * @return An ArrayList of MazeCells in order from the start to end cell
      */
     public ArrayList<MazeCell> solveMazeDFS() {
+        // Use a stack in order to view the last valid cell (LIFO)
         Stack <MazeCell> cellsToVisit = new Stack<>();
+        // set the start cell to the beginning
         MazeCell current = maze.getStartCell();
         current.setExplored(true);
         cellsToVisit.add(maze.getStartCell());
+        // do this until the end is found
         while (current != maze.getEndCell()){
+            // set the current to the last added cell
             current = cellsToVisit.pop();
+            // if the current is the last cell, call the get solution function to return all moves
             if (current == maze.getEndCell()) {
                 return getSolution();
             }
+            // check if north is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow() - 1, current.getCol())) {
                 cellsToVisit.add(maze.getCell(current.getRow() - 1, current.getCol()));
                 maze.getCell(current.getRow() - 1, current.getCol()).setExplored(true);
                 maze.getCell(current.getRow() - 1, current.getCol()).setParent(current);
             }
+            // check if east is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow(), current.getCol() + 1)) {
                 cellsToVisit.add(maze.getCell(current.getRow(), current.getCol() + 1));
                 maze.getCell(current.getRow(), current.getCol() + 1).setExplored(true);
                 maze.getCell(current.getRow(), current.getCol() + 1).setParent(current);
             }
+            // check if south is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow() + 1, current.getCol())) {
                 cellsToVisit.add(maze.getCell(current.getRow() + 1, current.getCol()));
                 maze.getCell(current.getRow() + 1, current.getCol()).setExplored(true);
                 maze.getCell(current.getRow() + 1, current.getCol()).setParent(current);
             }
+            // check if west is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow(), current.getCol() - 1)) {
                 cellsToVisit.add(maze.getCell(current.getRow(), current.getCol() - 1));
                 maze.getCell(current.getRow(), current.getCol() - 1).setExplored(true);
                 maze.getCell(current.getRow(), current.getCol() - 1).setParent(current);
             }
         }
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        //if there is no valid cell, return null (dead end)
         return null;
     }
 
@@ -90,35 +99,46 @@ public class MazeSolver {
      * @return An ArrayList of MazeCells in order from the start to end cell
      */
     public ArrayList<MazeCell> solveMazeBFS() {
-        // TODO: Use BFS to solve the maze
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        // Use a Queue in order to access the first cell added (FIFO)
         Queue<MazeCell> cellsToVisit = new LinkedList<>();
+        // set the start cell to the beginning
         MazeCell current = maze.getStartCell();
+        current.setExplored(true);
         cellsToVisit.add(maze.getStartCell());
+        // do this until the end is found
         while (current != maze.getEndCell()){
+            // set the current to the last added cell
             current = cellsToVisit.poll();
+            // if the current is the last cell, call the get solution function to return all moves
             if (current == maze.getEndCell()) {
                 return getSolution();
             }
+            // check if north is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow() - 1, current.getCol())) {
                 cellsToVisit.add(maze.getCell(current.getRow() - 1, current.getCol()));
+                maze.getCell(current.getRow() - 1, current.getCol()).setExplored(true);
                 maze.getCell(current.getRow() - 1, current.getCol()).setParent(current);
             }
+            // check if east is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow(), current.getCol() + 1)) {
                 cellsToVisit.add(maze.getCell(current.getRow(), current.getCol() + 1));
+                maze.getCell(current.getRow(), current.getCol() + 1).setExplored(true);
                 maze.getCell(current.getRow(), current.getCol() + 1).setParent(current);
             }
+            // check if south is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow() + 1, current.getCol())) {
                 cellsToVisit.add(maze.getCell(current.getRow() + 1, current.getCol()));
+                maze.getCell(current.getRow() + 1, current.getCol()).setExplored(true);
                 maze.getCell(current.getRow() + 1, current.getCol()).setParent(current);
             }
+            // check if west is a valid cell, then add and set explored to true and the parent to current
             if (maze.isValidCell(current.getRow(), current.getCol() - 1)) {
                 cellsToVisit.add(maze.getCell(current.getRow(), current.getCol() - 1));
+                maze.getCell(current.getRow(), current.getCol() - 1).setExplored(true);
                 maze.getCell(current.getRow(), current.getCol() - 1).setParent(current);
             }
-            current.setExplored(true);
         }
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        //if there is no valid cell, return null (dead end)
         return null;
     }
 
